@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:picture_note/services/google_%20authentication_services.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -75,7 +76,11 @@ class LoginPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    onPressed: null,
+                    onPressed: () {
+                      final googleAuthenticationService =
+                          GoogleAuthenticationService();
+                      googleAuthenticationService.signIn();
+                    },
                   ),
                 ),
               ),

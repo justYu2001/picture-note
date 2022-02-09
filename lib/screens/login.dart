@@ -18,31 +18,43 @@ class LoginPage extends StatelessWidget {
           ),
           child: Column(children: [
             const SizedBox(
-              height: 80.0,
+              height: 84.0,
             ),
-            const Text(
-              'Logo',
-              style: TextStyle(
-                fontSize: 72.0,
-              ),
+            const Image(
+              image: AssetImage("assets/images/logo.png"),
+              width: 156.0,
             ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            Text(
-              'Digitalize your classes',
-              style: GoogleFonts.bitter(
-                textStyle: const TextStyle(
-                  color: Color.fromARGB(255, 34, 142, 141),
-                  fontSize: 28.0,
-                  fontStyle: FontStyle.italic,
+            Stack(
+              children: [
+                Text(
+                  'Picademy',
+                  style: GoogleFonts.bitter(
+                    textStyle: TextStyle(
+                      fontSize: 60.0,
+                      fontStyle: FontStyle.italic,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 3.0
+                        ..color = Colors.black
+                    )
+                  ),
                 ),
-              ),
+                Text(
+                  'Picademy',
+                  style: GoogleFonts.bitter(
+                    textStyle: const TextStyle(
+                      fontSize: 60.0,
+                      fontStyle: FontStyle.italic,
+                      color: Color(0xfff1b248),
+                    )
+                  ),
+                )
+              ],
             ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 36.0,
+                  vertical: 96.0,
                   horizontal: 48.0,
                 ),
                 child: Align(
@@ -64,13 +76,13 @@ class LoginPage extends StatelessWidget {
                           width: 24.0,
                         ),
                         SizedBox(
-                          width: 20.0,
+                          width: 18.0,
                         ),
                         Text(
                           'Continue with Google',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 20.0,
+                            fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

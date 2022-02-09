@@ -5,8 +5,15 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pageController = PageController();
+
     return Scaffold(
-      body: Container(),
+      body: PageView(
+        controller: pageController,
+        children: [
+          Container(),
+        ],
+      ),
     );
   }
 }

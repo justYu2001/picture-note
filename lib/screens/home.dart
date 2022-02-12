@@ -9,6 +9,7 @@ class HomePage extends StatelessWidget {
     final pageController = PageController();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: PageView(
         controller: pageController,
         children: const [

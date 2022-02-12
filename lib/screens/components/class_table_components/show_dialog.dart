@@ -37,15 +37,7 @@ class _DialogContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width * 0.7,
-        height: MediaQuery.of(context).size.height * 0.6,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: const Color.fromRGBO(175, 163, 119, 1),
-            width: 3,
-          ),
-          borderRadius: BorderRadius.circular(30),
-
-        ),
+        height: MediaQuery.of(context).size.height * 0.5,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(

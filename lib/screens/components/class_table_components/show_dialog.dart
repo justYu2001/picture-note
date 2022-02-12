@@ -108,11 +108,11 @@ class _DialogContent extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
                         SizedBox(
-                          height: 100,
-                          width: 80,
+                          width: 80.0,
+                          height: 80.0,
                           child: IconButton(
                             icon: Icon(
                               Icons.arrow_back,
@@ -124,12 +124,11 @@ class _DialogContent extends StatelessWidget {
                         ),
                         Image(
                           image: AssetImage('assets/images/logo.png'),
-                          height: 50,
-                          width: 60,
+                          width: 60.0,
                         ),
                         SizedBox(
-                          height: 100,
-                          width: 80,
+                          width: 80.0,
+                          height: 80.0,
                           child: IconButton(
                             icon: Icon(
                               Icons.add,
@@ -142,7 +141,7 @@ class _DialogContent extends StatelessWidget {
                       ],
                     ),
                   ),
-              )
+              ),
             ],
           ),
         )

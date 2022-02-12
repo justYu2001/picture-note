@@ -12,7 +12,10 @@ class AddButton extends StatelessWidget {
         context: context,
         builder: (BuildContext context) => const AlertDialog(
           backgroundColor: Color.fromRGBO(122, 134, 157, 0.5),
-          content: _DialogContent(),
+          content: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: _DialogContent(),
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(30.0)),
             side: BorderSide(
@@ -33,8 +36,8 @@ class _DialogContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 130,
-        height: 410,
+        width: 80,
+        height: 400,
         decoration: BoxDecoration(
           border: Border.all(
             color: const Color.fromRGBO(175, 163, 119, 1),
@@ -44,7 +47,7 @@ class _DialogContent extends StatelessWidget {
 
         ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 25, 20, 25),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               const Text(

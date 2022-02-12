@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'class_table.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -10,7 +11,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: PageView(
         controller: pageController,
-        children: [
+        children: const [
           ClassTable(),
         ],
       ),

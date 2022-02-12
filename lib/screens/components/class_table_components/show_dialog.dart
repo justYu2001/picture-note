@@ -36,8 +36,8 @@ class _DialogContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 80,
-        height: 400,
+        width: MediaQuery.of(context).size.width * 0.7,
+        height: MediaQuery.of(context).size.height * 0.6,
         decoration: BoxDecoration(
           border: Border.all(
             color: const Color.fromRGBO(175, 163, 119, 1),
@@ -104,39 +104,44 @@ class _DialogContent extends StatelessWidget {
                 //   onChanged: (Object? value) {  },
                 // ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  SizedBox(
-                    height: 100,
-                    width: 80,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Color.fromRGBO(98,108,126, 1),
-                        size: 70.0,
-                      ),
-                      onPressed: null,
+              Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        SizedBox(
+                          height: 100,
+                          width: 80,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: Color.fromRGBO(98,108,126, 1),
+                              size: 70.0,
+                            ),
+                            onPressed: null,
+                          ),
+                        ),
+                        Image(
+                          image: AssetImage('assets/images/logo.png'),
+                          height: 50,
+                          width: 60,
+                        ),
+                        SizedBox(
+                          height: 100,
+                          width: 80,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Color.fromRGBO(98,108,126, 1),
+                              size: 70.0,
+                            ),
+                            onPressed: null,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Image(
-                    image: AssetImage('assets/images/logo.png'),
-                    height: 50,
-                    width: 60,
-                  ),
-                  SizedBox(
-                    height: 100,
-                    width: 80,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.add,
-                        color: Color.fromRGBO(98,108,126, 1),
-                        size: 70.0,
-                      ),
-                      onPressed: null,
-                    ),
-                  ),
-                ],
               )
             ],
           ),

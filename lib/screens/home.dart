@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:picture_note/screens/camera.dart';
 import 'class_table.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,6 +14,7 @@ class HomePage extends StatelessWidget {
       body: PageView(
         controller: pageController,
         children: const [
+          Camera(),
           ClassTable(),
         ],
       ),

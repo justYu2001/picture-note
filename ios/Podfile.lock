@@ -4,6 +4,8 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
+  - camera (0.0.1):
+    - Flutter
   - Firebase/Analytics (8.11.0):
     - Firebase/Core
   - Firebase/Auth (8.11.0):
@@ -117,6 +119,8 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.7.0)
+  - image_picker (0.0.1):
+    - Flutter
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -127,11 +131,13 @@ PODS:
   - PromisesObjC (2.0.0)
 
 DEPENDENCIES:
+  - camera (from `.symlinks/plugins/camera/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
+  - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
 
 SPEC REPOS:
@@ -153,6 +159,8 @@ SPEC REPOS:
     - PromisesObjC
 
 EXTERNAL SOURCES:
+  camera:
+    :path: ".symlinks/plugins/camera/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
@@ -163,11 +171,14 @@ EXTERNAL SOURCES:
     :path: Flutter
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
+  image_picker:
+    :path: ".symlinks/plugins/image_picker/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+  camera: 9993f92f2c793e87b65e35f3a23c70582afb05b1
   Firebase: 44dd9724c84df18b486639e874f31436eaa9a20c
   firebase_analytics: b267e923ba3cdc892bdcadc01efab50f3b8b7441
   firebase_auth: ccdb84a0d52a2d7897898ae8121689da6e13d71f
@@ -185,6 +196,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
+  image_picker: 541dcbb3b9cf32d87eacbd957845d8651d6c62c3
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58

@@ -12,7 +12,11 @@ class Camera extends StatefulWidget {
 class _CameraState extends State<Camera> {
   late List<CameraDescription> _cameras;
   CameraController? _cameraController;
+
   double _zoom = 1.0;
+
+  FlashMode _flashMode = FlashMode.off;
+  IconData _flashModeIcon = Icons.flash_off;
 
   void initializeController() async {
     _cameras = await availableCameras();
@@ -63,6 +67,8 @@ class _CameraState extends State<Camera> {
   Widget build(BuildContext context) {
     bool hasNotch = MediaQuery.of(context).viewPadding.top > 0;
 
+    _cameraController?.setFlashMode(_flashMode);
+
     if (_cameraController == null || !_cameraController!.value.isInitialized) {
       return Container(
         decoration: const BoxDecoration(
@@ -85,7 +91,29 @@ class _CameraState extends State<Camera> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const SizedBox(width: 32.0),
-                  _iconButton(Icons.flash_off, null),
+                  _iconButton(_flashModeIcon, () {
+                    if(_flashMode == FlashMode.off) {
+                      _flashMode = FlashMode.always;
+
+                      setState(() {
+                        _flashModeIcon = Icons.flash_on;
+                      });
+                    } else if(_flashMode == FlashMode.always) {
+                      _flashMode = FlashMode.auto;
+
+                      setState(() {
+                        _flashModeIcon = Icons.flash_auto;
+                      });
+                    } else {
+                      _flashMode = FlashMode.off;
+
+                      setState(() {
+                        _flashModeIcon = Icons.flash_off;
+                      });
+                    }
+
+                    _cameraController?.setFlashMode(_flashMode);
+                  }),
                   _iconButton(Icons.arrow_forward, null),
                 ],
               ),
@@ -143,7 +171,9 @@ class _CameraState extends State<Camera> {
                           child: InkWell(
                             splashColor: Colors.grey[300]?.withOpacity(0.7),
                             splashFactory: InkRipple.splashFactory,
-                            onTap: () {},
+                            onTap: () async {
+                              final image = await _cameraController?.takePicture();
+                            },
                             child: const SizedBox(width: 56, height: 56),
                           ),
                         ),

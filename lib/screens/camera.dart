@@ -10,19 +10,20 @@ class Camera extends StatefulWidget {
 }
 
 class _CameraState extends State<Camera> {
-  late List<CameraDescription> cameras;
-  CameraController? cameraController;
+  late List<CameraDescription> _cameras;
+  CameraController? _cameraController;
+  double _zoom = 1.0;
 
   void initializeController() async {
-    cameras = await availableCameras();
+    _cameras = await availableCameras();
 
-    var controller = CameraController(cameras[0], ResolutionPreset.max);
+    var controller = CameraController(_cameras[0], ResolutionPreset.max);
     controller.initialize().then((_) {
-      if(!mounted) {
+      if (!mounted) {
         return;
       }
       setState(() {
-        cameraController = controller;
+        _cameraController = controller;
       });
     });
   }
@@ -43,7 +44,7 @@ class _CameraState extends State<Camera> {
       SystemUiMode.manual,
       overlays: SystemUiOverlay.values,
     );
-    cameraController?.dispose();
+    _cameraController?.dispose();
     super.dispose();
   }
 
@@ -60,7 +61,7 @@ class _CameraState extends State<Camera> {
 
   @override
   Widget build(BuildContext context) {
-    if(cameraController == null || !cameraController!.value.isInitialized) {
+    if (_cameraController == null || !_cameraController!.value.isInitialized) {
       return Container(
         decoration: const BoxDecoration(
           color: Colors.black,
@@ -69,9 +70,8 @@ class _CameraState extends State<Camera> {
     }
 
     return CameraPreview(
-      cameraController!,
+      _cameraController!,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -82,17 +82,27 @@ class _CameraState extends State<Camera> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox(width: 32.0),
-                _iconButton(
-                    Icons.flash_off,
-                    () {
-                      print('flash');
-                    }
-                ),
-                _iconButton(
-                    Icons.arrow_forward,
-                    null
-                ),
+                _iconButton(Icons.flash_off, null),
+                _iconButton(Icons.arrow_forward, null),
               ],
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              onScaleUpdate: (scaleStartDetails) {
+                double newZoom = 0.0;
+                if (scaleStartDetails.scale > 1.0) {
+                  newZoom = _zoom + 0.05;
+                } else if (scaleStartDetails.scale < 1.0) {
+                  newZoom = _zoom - 0.05;
+                }
+
+                if (newZoom >= 1.0 && newZoom <= 9.0) {
+                  _zoom = newZoom;
+                }
+
+                _cameraController?.setZoomLevel(_zoom);
+              },
             ),
           ),
           Padding(
@@ -115,34 +125,27 @@ class _CameraState extends State<Camera> {
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.transparent,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 3.0,
-                    ),
-                  ),
-                  padding: const EdgeInsets.all(1.0),
-                  child: ClipOval(
-                    child: Material(
-                      color: Colors.white,
-                      child: InkWell(
-                        splashColor: Colors.grey[300]?.withOpacity(0.7),
-                        splashFactory: InkRipple.splashFactory,
-                        onTap: () {},
-                        child: const SizedBox(
-                            width: 56,
-                            height: 56
-                        ),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.transparent,
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 3.0,
                       ),
                     ),
-                  )
-                ),
-                _iconButton(
-                    Icons.flip_camera_android,
-                    null
-                ),
+                    padding: const EdgeInsets.all(1.0),
+                    child: ClipOval(
+                      child: Material(
+                        color: Colors.white,
+                        child: InkWell(
+                          splashColor: Colors.grey[300]?.withOpacity(0.7),
+                          splashFactory: InkRipple.splashFactory,
+                          onTap: () {},
+                          child: const SizedBox(width: 56, height: 56),
+                        ),
+                      ),
+                    )),
+                _iconButton(Icons.flip_camera_android, null),
               ],
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:picture_note/locator.dart';
+import 'package:picture_note/viewmodels/class_manage_model.dart';
 class AddButton extends StatelessWidget {
   const AddButton({Key? key}) : super(key: key);
 

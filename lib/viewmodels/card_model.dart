@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import '../enums/viewstate.dart';
+import 'package:picture_note/enums/viewstate.dart';
+import 'package:picture_note/locator.dart';
+import 'package:picture_note/services/normal_card_infromation_service.dart';
+import 'class_manage_model.dart';
 import 'base_model.dart';
 
 class SelectedCardModel extends BaseCard{
@@ -17,7 +20,20 @@ class SelectedCardModel extends BaseCard{
 }
 
 class NormalCardModel extends BaseModel{
-  String classType = "required";
-  late int day;
-  late int clock;
+
+  NormalCardInformation getNormalCardInformation(int day, int clock){
+    var classTableManageModel = locator<ClassTableManageModel>();
+    return classTableManageModel.getNormalCardModelInstance(day, clock);
+  }
+
+  Color getColor(int day, int clock){
+    var cardInformation = getNormalCardInformation(day, clock);
+    return cardInformation.getClassColor();
+  }
+
+  String getName(int day, int clock){
+    var cardInformation = getNormalCardInformation(day, clock);
+    return cardInformation.getClassName();
+  }
 }
+

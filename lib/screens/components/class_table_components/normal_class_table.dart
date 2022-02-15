@@ -5,37 +5,6 @@ import 'package:picture_note/viewmodels/class_manage_model.dart';
 import 'package:picture_note/locator.dart';
 import 'clock_box.dart';
 
-// class _ClassCard extends StatelessWidget {
-//   final int day;
-//   final int clock;
-//
-//   const _ClassCard({Key? key, required this.day, required this.clock})
-//       : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ChangeNotifierProvider<NormalCardModel>(
-//         create: (context) {
-//           var classTableManageModel = locator<ClassTableManageModel>();
-//           return classTableManageModel.getNormalCardModelInstance(day, clock);
-//         },
-//         child: Consumer<NormalCardModel>(
-//             builder: (context, normalCardModel, child) => Card(
-//                   margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
-//                   color: Colors.transparent,
-//                   child: InkWell(
-//                     onTap: () {},
-//                     child: SizedBox(
-//                       width: 45,
-//                       height: 70,
-//                     ),
-//                   ),
-//                 )
-//         )
-//     );
-//   }
-// }
-
 class _ClassCard extends StatelessWidget {
   final int day;
   final int clock;
@@ -45,19 +14,21 @@ class _ClassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          var classTableManageModel = locator<ClassTableManageModel>();
-          classTableManageModel.getNormalCardModelInstance(day, clock);
-        },
-        child: SizedBox(
-          width: 45,
-          height: 70,
-        ),
-      ),
+    return ChangeNotifierProvider<NormalCardModel>(
+        create: (context)  => locator<NormalCardModel>(),
+        child: Consumer<NormalCardModel>(
+            builder: (context, normalCardModel, child) => Card(
+                  margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+                  color: normalCardModel.getColor(day, clock),
+                  child: InkWell(
+                    onTap: () {},
+                    child: SizedBox(
+                      width: 45,
+                      height: 70,
+                    ),
+                  ),
+                )
+        )
     );
   }
 }

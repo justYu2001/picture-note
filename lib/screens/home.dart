@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:picture_note/screens/camera.dart';
 import 'class_table.dart';
 
@@ -8,33 +7,16 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pageController = PageController(
-      initialPage: 1,
-    );
+    final pageController = PageController();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: PageView(
-
         controller: pageController,
-        physics: const ClampingScrollPhysics(),
-        children: [
-          Camera(pageController),
-          const ClassTable(),
+        children: const [
+          Camera(),
+          ClassTable(),
         ],
-        onPageChanged: (pageIndex) {
-          if(pageIndex == 0) {
-            SystemChrome.setEnabledSystemUIMode(
-              SystemUiMode.manual,
-              overlays: [],
-            );
-          } else {
-            SystemChrome.setEnabledSystemUIMode(
-              SystemUiMode.manual,
-              overlays: SystemUiOverlay.values,
-            );
-          }
-        },
       ),
     );
   }

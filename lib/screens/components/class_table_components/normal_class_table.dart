@@ -1,22 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:picture_note/viewmodels/card_model.dart';
+import 'package:picture_note/viewmodels/class_manage_model.dart';
+import 'package:picture_note/locator.dart';
 import 'clock_box.dart';
 
-class _ClassCard extends StatefulWidget {
-  final int classIndex;
-  const _ClassCard({Key? key, required this.classIndex}) : super(key: key);
+// class _ClassCard extends StatelessWidget {
+//   final int day;
+//   final int clock;
+//
+//   const _ClassCard({Key? key, required this.day, required this.clock})
+//       : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ChangeNotifierProvider<NormalCardModel>(
+//         create: (context) {
+//           var classTableManageModel = locator<ClassTableManageModel>();
+//           return classTableManageModel.getNormalCardModelInstance(day, clock);
+//         },
+//         child: Consumer<NormalCardModel>(
+//             builder: (context, normalCardModel, child) => Card(
+//                   margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+//                   color: Colors.transparent,
+//                   child: InkWell(
+//                     onTap: () {},
+//                     child: SizedBox(
+//                       width: 45,
+//                       height: 70,
+//                     ),
+//                   ),
+//                 )
+//         )
+//     );
+//   }
+// }
 
-  @override
-  _ClassCardState createState() => _ClassCardState();
-}
+class _ClassCard extends StatelessWidget {
+  final int day;
+  final int clock;
 
-class _ClassCardState extends State<_ClassCard> {
+  const _ClassCard({Key? key, required this.day, required this.clock})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          var classTableManageModel = locator<ClassTableManageModel>();
+          classTableManageModel.getNormalCardModelInstance(day, clock);
+        },
         child: SizedBox(
           width: 45,
           height: 70,
@@ -46,11 +82,15 @@ class _NormalClassTableState extends State<NormalClassTable> {
         ),
         Expanded(
           child: Wrap(children: [
-            for (int i = 0; i < 126; i++) _ClassCard(classIndex: i),
+            for (int clock = 7; clock < 25; clock++) // need fix
+              for (int day = 0; day < 7; day++)
+                _ClassCard(
+                  day: day,
+                  clock: clock,
+                )
           ]),
         )
       ],
     );
   }
 }
-

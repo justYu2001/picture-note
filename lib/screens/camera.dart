@@ -1,9 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class Camera extends StatefulWidget {
-  const Camera({Key? key}) : super(key: key);
+  final PageController _pageController;
+
+  const Camera(this._pageController, {Key? key}) : super(key: key);
 
   @override
   _CameraState createState() => _CameraState();
@@ -38,18 +39,10 @@ class _CameraState extends State<Camera> {
   void initState() {
     super.initState();
     initializeController();
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: [],
-    );
   }
 
   @override
   void dispose() {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: SystemUiOverlay.values,
-    );
     _cameraController?.dispose();
     super.dispose();
   }
@@ -116,7 +109,15 @@ class _CameraState extends State<Camera> {
 
                     _cameraController?.setFlashMode(_flashMode);
                   }),
-                  _iconButton(Icons.arrow_forward, null),
+                  _iconButton(Icons.arrow_forward, () {
+                    widget._pageController.animateToPage(
+                        1,
+                        duration: const Duration(
+                          milliseconds: 400,
+                        ),
+                        curve: Curves.ease,
+                    );
+                  }),
                 ],
               ),
             ),

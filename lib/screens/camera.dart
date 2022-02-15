@@ -18,10 +18,12 @@ class _CameraState extends State<Camera> {
   FlashMode _flashMode = FlashMode.off;
   IconData _flashModeIcon = Icons.flash_off;
 
-  void initializeController() async {
+  void initializeController([CameraDescription? cameraDescription]) async {
     _cameras = await availableCameras();
 
-    var controller = CameraController(_cameras[0], ResolutionPreset.max);
+    cameraDescription ??= _cameras[0];
+
+    var controller = CameraController(cameraDescription, ResolutionPreset.max);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -178,7 +180,23 @@ class _CameraState extends State<Camera> {
                           ),
                         ),
                       )),
-                  _iconButton(Icons.flip_camera_android, null),
+                  _iconButton(Icons.flip_camera_android, () {
+                    final lensDirection = _cameraController?.description.lensDirection;
+
+                    CameraDescription newCameraDescription;
+
+                    if(lensDirection == CameraLensDirection.front) {
+                      newCameraDescription = _cameras.firstWhere((camera) {
+                        return camera.lensDirection == CameraLensDirection.back;
+                      });
+                    } else {
+                      newCameraDescription = _cameras.firstWhere((camera) {
+                        return camera.lensDirection == CameraLensDirection.front;
+                      });
+                    }
+
+                    initializeController(newCameraDescription);
+                  }),
                 ],
               ),
             ),

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 class Camera extends StatefulWidget {
   final PageController _pageController;
@@ -19,6 +22,8 @@ class _CameraState extends State<Camera> {
   FlashMode _flashMode = FlashMode.off;
   IconData _flashModeIcon = Icons.flash_off;
 
+  File? _latestImage;
+
   void initializeController([CameraDescription? cameraDescription]) async {
     _cameras = await availableCameras();
 
@@ -35,10 +40,26 @@ class _CameraState extends State<Camera> {
     });
   }
 
+  void initializeLatestImage() async {
+    List<AssetPathEntity> imagePathList = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+    );
+
+    final path = imagePathList[0];
+    final imageList = await path.getAssetListRange(start: 0, end: 1);
+    AssetEntity imageEntity = imageList[0];
+    var latestImage = await imageEntity.file;
+
+    setState(() {
+      _latestImage = latestImage;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     initializeController();
+    initializeLatestImage();
   }
 
   @override
@@ -56,6 +77,17 @@ class _CameraState extends State<Camera> {
       ),
       onTap: onPressedHandler,
     );
+  }
+
+  Widget? _latestImagePreview() {
+    if(_latestImage == null) {
+      return null;
+    } else {
+      return Image.file(
+        _latestImage!,
+        fit: BoxFit.cover,
+      );
+    }
   }
 
   @override
@@ -148,13 +180,17 @@ class _CameraState extends State<Camera> {
                   SizedBox(
                     width: 36.0,
                     height: 36.0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4.0),
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 3.0,
+                    child: InkWell(
+                      onTap: null,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 3.0,
+                          ),
                         ),
+                        child: _latestImagePreview(),
                       ),
                     ),
                   ),

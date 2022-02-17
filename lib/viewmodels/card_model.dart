@@ -12,7 +12,7 @@ class SelectedCardModel extends BaseCard{
     setState(ViewState.Idle);
   }
 
-  Color get showColor => isSelected? Color.fromRGBO(100,147,161, 0.7): Colors.transparent;
+  Color get showColor => isSelected? Color.fromRGBO(144, 159, 190, 0.7): Colors.transparent;
 
 }
 

@@ -5,7 +5,7 @@ class DialogDropDownButtonModel extends BaseModel{
   String dropdownValue = '系上必修';
   int typeIndex = 0;
   List<double> typeTransparency = [
-    1, 0.7, 0.5, 0.3
+    1, 0.75, 0.5, 0.25
   ];
   List<String> allClassType = [
     '系上必修',

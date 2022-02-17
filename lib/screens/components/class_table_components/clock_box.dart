@@ -19,16 +19,15 @@ class ClockBox extends StatelessWidget {
         width: 35,
         height: 70,
         child: Padding(
-          padding: EdgeInsets.all(0),
-          child: Text(
-            clock.toString(),
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15
-            ),
-          ),
-        ),
+            padding: EdgeInsets.all(0),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                clock.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white, fontSize: 15),
+              ),
+            )),
       ),
     );
   }

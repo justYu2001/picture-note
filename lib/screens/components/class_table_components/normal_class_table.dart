@@ -22,21 +22,24 @@ class _ClassCard extends StatelessWidget {
         value: selectTableService.normalCardModelInstances[day]?[clock-7],
         child: Consumer<NormalCardModel>(
             builder: (context, normalCardModel, child) => Card(
-                  margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+                borderOnForeground:false,
+                margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
                   color: normalCardModel.classColor,
                   child: InkWell(
                     onTap: () {},
                     child: SizedBox(
                       width: 45,
                       height: 70,
-                      child: Text(
-                        '${normalCardModel.className}',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 15
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          '${normalCardModel.className}',
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10
+                          ),
                         ),
-                      ),
+                      )
                     ),
                   ),
                 )

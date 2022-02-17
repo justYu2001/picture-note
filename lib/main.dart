@@ -4,7 +4,6 @@ import 'package:picture_note/configs/firebase_options.dart';
 import 'package:picture_note/screens/main_screen.dart';
 import 'package:picture_note/locator.dart';
 import 'package:picture_note/services/firebase_authentication_servise.dart';
-import 'package:picture_note/viewmodels/class_manage_model.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -30,9 +29,6 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 context.read<FirebaseAuthenticationServise>().authState,
             initialData: null),
-        // ChangeNotifierProvider<ClassTableManageModel>(
-        //   create: (context) => ClassTableManageModel(),
-        // ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

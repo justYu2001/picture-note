@@ -35,15 +35,8 @@ class _SelectClassCard extends StatelessWidget {
   }
 }
 
-class SelectClassTable extends StatefulWidget {
+class SelectClassTable extends StatelessWidget {
   const SelectClassTable({Key? key}) : super(key: key);
-
-  @override
-  SelectClassTableState createState() => SelectClassTableState();
-}
-
-class SelectClassTableState extends State<SelectClassTable> {
-  var isSelected = List<List<bool>>.filled(19, List<bool>.filled(7, false));
 
   @override
   Widget build(BuildContext context) {

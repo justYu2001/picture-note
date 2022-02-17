@@ -29,6 +29,14 @@ class _ClassCard extends StatelessWidget {
                     child: SizedBox(
                       width: 45,
                       height: 70,
+                      child: Text(
+                        '${normalCardModel.className}',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15
+                        ),
+                      ),
                     ),
                   ),
                 )
@@ -37,14 +45,9 @@ class _ClassCard extends StatelessWidget {
   }
 }
 
-class NormalClassTable extends StatefulWidget {
+class NormalClassTable extends StatelessWidget {
   const NormalClassTable({Key? key}) : super(key: key);
 
-  @override
-  _NormalClassTableState createState() => _NormalClassTableState();
-}
-
-class _NormalClassTableState extends State<NormalClassTable> {
   @override
   Widget build(BuildContext context) {
     return Row(

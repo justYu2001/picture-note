@@ -22,7 +22,7 @@ class _SelectClassCard extends StatelessWidget {
               onTap: () {
                 selectedCardModel.setSelect = true;
                 var selectTableService = locator<SelectTableService>();
-                selectTableService.setSelect(day, clock);
+                selectTableService.setSelectCondition(day, clock);
               },
               child: const SizedBox(
                 width: 45,

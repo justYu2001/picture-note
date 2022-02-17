@@ -9,7 +9,7 @@ class Camera extends StatefulWidget {
   _CameraState createState() => _CameraState();
 }
 
-class _CameraState extends State<Camera> with WidgetsBindingObserver {
+class _CameraState extends State<Camera> {
   late List<CameraDescription> _cameras;
   CameraController? _cameraController;
 
@@ -33,16 +33,8 @@ class _CameraState extends State<Camera> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(state == AppLifecycleState.resumed) {
-      initializeLatestImage();
-    }
-  }
-
-  @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
     initializeController();
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,
@@ -57,7 +49,6 @@ class _CameraState extends State<Camera> with WidgetsBindingObserver {
       overlays: SystemUiOverlay.values,
     );
     _cameraController?.dispose();
-    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 

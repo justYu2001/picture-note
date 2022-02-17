@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:picture_note/locator.dart';
+import 'package:picture_note/services/select_class_table_services.dart';
 import 'components/class_table_components/class_table_manage.dart';
 import 'components/class_table_components/day_box.dart';
+import 'components/class_table_components/normal_class_table.dart';
+import 'components/class_table_components/select_class_table.dart';
 import 'components/class_table_components/show_dialog.dart';
 import 'components/class_table_components/select_button.dart';
+
+SelectTableService selectTableService= locator<SelectTableService>();
 
 class ClassTable extends StatelessWidget {
   const ClassTable({Key? key}) : super(key: key);

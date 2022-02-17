@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:picture_note/locator.dart';
+
 import 'package:picture_note/viewmodels/class_manage_model.dart';
 
 class SelectButton extends StatelessWidget {
@@ -11,8 +12,8 @@ class SelectButton extends StatelessWidget {
       icon: const Icon(Icons.select_all),
       color: Colors.white,
       onPressed: () {
-        var classTableManageModel = locator<ClassTableManageModel>();
-        classTableManageModel.setSelectMode = true;
+        ClassTableManageModel classTableManageModel = locator<ClassTableManageModel>();
+        classTableManageModel.changeSelectMode();
       },
     );
   }

@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:picture_note/viewmodels/card_model.dart';
-import 'package:picture_note/viewmodels/class_manage_model.dart';
 import 'package:picture_note/locator.dart';
+import 'package:picture_note/services/select_class_table_services.dart';
 import 'clock_box.dart';
 
 class _ClassCard extends StatelessWidget {
   final int day;
   final int clock;
 
+
   const _ClassCard({Key? key, required this.day, required this.clock})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<NormalCardModel>(
-        create: (context)  => locator<NormalCardModel>(),
+    NormalCardModel normalCardModel = locator<NormalCardModel>();
+    SelectTableService selectTableService = locator<SelectTableService>();
+    selectTableService.normalCardModelInstances[day]?.add(normalCardModel);
+    return ChangeNotifierProvider<NormalCardModel>.value(
+        value: selectTableService.normalCardModelInstances[day]?[clock-7],
         child: Consumer<NormalCardModel>(
             builder: (context, normalCardModel, child) => Card(
                   margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
-                  color: normalCardModel.getColor(day, clock),
+                  color: normalCardModel.classColor,
                   child: InkWell(
                     onTap: () {},
                     child: SizedBox(

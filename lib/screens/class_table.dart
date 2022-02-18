@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:picture_note/locator.dart';
+import 'package:picture_note/services/select_class_table_services.dart';
+import 'components/class_table_components/class_table_manage.dart';
+import 'package:picture_note/viewmodels/class_manage_model.dart';
 import 'components/class_table_components/day_box.dart';
+import 'package:provider/provider.dart';
 import 'components/class_table_components/show_dialog.dart';
 import 'components/class_table_components/select_button.dart';
-import 'components/class_table_components/normal_class_table.dart';
-import 'components/class_table_components/select_class_table.dart';
+
+SelectTableService selectTableService = locator<SelectTableService>();
+
 class ClassTable extends StatelessWidget {
   const ClassTable({Key? key}) : super(key: key);
 
@@ -23,12 +29,21 @@ class ClassTable extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(10, 21, 0, 0),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    SelectButton(),
-                    AddButton(),
-                  ],
+                ChangeNotifierProvider<ClassTableManageModel>.value(
+                  value: locator<ClassTableManageModel>(),
+                  child: Consumer<ClassTableManageModel>(
+                      builder: (context, classTableManageModel, child) =>
+                          Container(
+                            color: classTableManageModel.selectMode == true ?
+                            Color.fromRGBO(144, 159, 190, 0.5) : Colors.transparent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: const [
+                                SelectButton(),
+                                AddButton(),
+                              ],
+                            ),
+                          )),
                 ),
                 Row(
                   children: [
@@ -55,7 +70,7 @@ class ClassTable extends StatelessWidget {
                 Expanded(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    child: NormalClassTable(),
+                    child: ClassTableManage(),
                   ),
                 )
               ],

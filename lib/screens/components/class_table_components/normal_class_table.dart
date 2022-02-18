@@ -1,39 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:picture_note/viewmodels/card_model.dart';
+import 'package:picture_note/locator.dart';
+import 'package:picture_note/services/select_class_table_services.dart';
 import 'clock_box.dart';
 
-class _ClassCard extends StatefulWidget {
-  final int classIndex;
-  const _ClassCard({Key? key, required this.classIndex}) : super(key: key);
+class _ClassCard extends StatelessWidget {
+  final int day;
+  final int clock;
 
-  @override
-  _ClassCardState createState() => _ClassCardState();
-}
 
-class _ClassCardState extends State<_ClassCard> {
+  const _ClassCard({Key? key, required this.day, required this.clock})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {},
-        child: SizedBox(
-          width: 45,
-          height: 70,
-        ),
-      ),
+    NormalCardModel normalCardModel = locator<NormalCardModel>();
+    SelectTableService selectTableService = locator<SelectTableService>();
+    selectTableService.normalCardModelInstances[day]?.add(normalCardModel);
+    return ChangeNotifierProvider<NormalCardModel>.value(
+        value: selectTableService.normalCardModelInstances[day]?[clock-7],
+        child: Consumer<NormalCardModel>(
+            builder: (context, normalCardModel, child) => Card(
+                borderOnForeground:false,
+                margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+                  color: normalCardModel.classColor,
+                  child: InkWell(
+                    onTap: () {},
+                    child: SizedBox(
+                      width: 45,
+                      height: 70,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          '${normalCardModel.className}',
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10
+                          ),
+                        ),
+                      )
+                    ),
+                  ),
+                )
+        )
     );
   }
 }
 
-class NormalClassTable extends StatefulWidget {
+class NormalClassTable extends StatelessWidget {
   const NormalClassTable({Key? key}) : super(key: key);
 
-  @override
-  _NormalClassTableState createState() => _NormalClassTableState();
-}
-
-class _NormalClassTableState extends State<NormalClassTable> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -46,11 +63,15 @@ class _NormalClassTableState extends State<NormalClassTable> {
         ),
         Expanded(
           child: Wrap(children: [
-            for (int i = 0; i < 126; i++) _ClassCard(classIndex: i),
+            for (int clock = 7; clock < 25; clock++) // need fix
+              for (int day = 0; day < 7; day++)
+                _ClassCard(
+                  day: day,
+                  clock: clock,
+                )
           ]),
         )
       ],
     );
   }
 }
-

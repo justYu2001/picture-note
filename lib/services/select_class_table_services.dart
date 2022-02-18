@@ -29,16 +29,14 @@ class SelectTableService{
     });
   }
 
-  void setNormalCardInformation(){ // pass the class's color here
+  void setNormalCardInformation(){
     for(int day = 0; day < 7; day ++){
-      if(selectCondition[day] != null){
-        if(selectCondition[day]!.isNotEmpty){
-          for (var clock in selectCondition[day]!) {
-            normalCardModelInstances[day]?[clock-7].classColor = Color.fromRGBO(117,176,192,
-                dialogDropDownButtonModel.getTransparency());
-            normalCardModelInstances[day]?[clock-7].setInformation();
-            normalCardModelInstances[day]?[clock-7].className = newClassNameController.text;
-          }
+      if(selectCondition[day]!.isNotEmpty){
+        for (var clock in selectCondition[day]!) {
+          normalCardModelInstances[day]?[clock-7].classColor = Color.fromRGBO(117,176,192,
+              dialogDropDownButtonModel.getTransparency());
+          normalCardModelInstances[day]?[clock-7].setInformation();
+          normalCardModelInstances[day]?[clock-7].className = newClassNameController.text;
         }
       }
     }

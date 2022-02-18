@@ -17,7 +17,7 @@ class DialogDropDownButtonModel extends BaseModel{
   void dropdownValueUpdate(String? newValue){
     setState(ViewState.Busy);
     typeIndex = allClassType.indexOf(newValue!);
-    dropdownValue = newValue ?? "";
+    dropdownValue = newValue;
     setState(ViewState.Idle);
   }
 

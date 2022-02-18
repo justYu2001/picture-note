@@ -1,15 +1,19 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 class Camera extends StatefulWidget {
-  const Camera({Key? key}) : super(key: key);
+  final PageController _pageController;
+
+  const Camera(this._pageController, {Key? key}) : super(key: key);
 
   @override
   _CameraState createState() => _CameraState();
 }
 
-class _CameraState extends State<Camera> {
+class _CameraState extends State<Camera> with WidgetsBindingObserver {
   late List<CameraDescription> _cameras;
   CameraController? _cameraController;
 
@@ -18,10 +22,14 @@ class _CameraState extends State<Camera> {
   FlashMode _flashMode = FlashMode.off;
   IconData _flashModeIcon = Icons.flash_off;
 
-  void initializeController() async {
+  File? _latestImage;
+
+  void initializeController([CameraDescription? cameraDescription]) async {
     _cameras = await availableCameras();
 
-    var controller = CameraController(_cameras[0], ResolutionPreset.max);
+    cameraDescription ??= _cameras[0];
+
+    var controller = CameraController(cameraDescription, ResolutionPreset.max);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -32,23 +40,40 @@ class _CameraState extends State<Camera> {
     });
   }
 
+  void initializeLatestImage() async {
+    List<AssetPathEntity> imagePathList = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+    );
+
+    final path = imagePathList[0];
+    final imageList = await path.getAssetListRange(start: 0, end: 1);
+    AssetEntity imageEntity = imageList[0];
+    var latestImage = await imageEntity.file;
+
+    setState(() {
+      _latestImage = latestImage;
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state == AppLifecycleState.resumed) {
+      initializeLatestImage();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance?.addObserver(this);
     initializeController();
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: [],
-    );
+    initializeLatestImage();
   }
 
   @override
   void dispose() {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: SystemUiOverlay.values,
-    );
     _cameraController?.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
@@ -61,6 +86,17 @@ class _CameraState extends State<Camera> {
       ),
       onTap: onPressedHandler,
     );
+  }
+
+  Widget? _latestImagePreview() {
+    if(_latestImage == null) {
+      return null;
+    } else {
+      return Image.file(
+        _latestImage!,
+        fit: BoxFit.cover,
+      );
+    }
   }
 
   @override
@@ -114,7 +150,15 @@ class _CameraState extends State<Camera> {
 
                     _cameraController?.setFlashMode(_flashMode);
                   }),
-                  _iconButton(Icons.arrow_forward, null),
+                  _iconButton(Icons.arrow_forward, () {
+                    widget._pageController.animateToPage(
+                        1,
+                        duration: const Duration(
+                          milliseconds: 400,
+                        ),
+                        curve: Curves.ease,
+                    );
+                  }),
                 ],
               ),
             ),
@@ -145,13 +189,17 @@ class _CameraState extends State<Camera> {
                   SizedBox(
                     width: 36.0,
                     height: 36.0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4.0),
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 3.0,
+                    child: InkWell(
+                      onTap: null,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 3.0,
+                          ),
                         ),
+                        child: _latestImagePreview(),
                       ),
                     ),
                   ),
@@ -178,7 +226,23 @@ class _CameraState extends State<Camera> {
                           ),
                         ),
                       )),
-                  _iconButton(Icons.flip_camera_android, null),
+                  _iconButton(Icons.flip_camera_android, () {
+                    final lensDirection = _cameraController?.description.lensDirection;
+
+                    CameraDescription newCameraDescription;
+
+                    if(lensDirection == CameraLensDirection.front) {
+                      newCameraDescription = _cameras.firstWhere((camera) {
+                        return camera.lensDirection == CameraLensDirection.back;
+                      });
+                    } else {
+                      newCameraDescription = _cameras.firstWhere((camera) {
+                        return camera.lensDirection == CameraLensDirection.front;
+                      });
+                    }
+
+                    initializeController(newCameraDescription);
+                  }),
                 ],
               ),
             ),

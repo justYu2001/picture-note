@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:picture_note/viewmodels/dialog_drop_down_button_model.dart';
 import 'package:picture_note/locator.dart';
+import 'package:picture_note/db/class_infromation_db_model.dart';
+
+import 'package:picture_note/db/db_operater.dart';
+
+import 'package:picture_note/viewmodels/card_model.dart';
+/// todo 將資料庫資料呈現到畫面上
 
 class SelectTableService{
   TextEditingController newClassNameController = TextEditingController();
@@ -9,9 +15,19 @@ class SelectTableService{
   var normalCardModelInstances = <int, List>{
     0 : [],1 : [], 2:[], 3 : [], 4 : [], 5 : [], 6:[]
   };
-  var selectCondition = <int, List>{
+  var selectCondition = <int, List<int>>{
     0 : [],1 : [], 2:[], 3 : [], 4 : [], 5 : [], 6:[]
   };
+
+  Future<void> init() async{
+    for(int day = 0; day < 7; day++){
+      for(int clock = 0; clock < 18; clock++){
+        NormalCardModel normalCardModel = locator<NormalCardModel>();
+        normalCardModelInstances[day]?.add(normalCardModel);
+      }
+    }
+    List<ClassInformationDBModel> classInformation = await getClassInformation();
+  }
 
 
   void setSelectCondition(int day, int clock){
@@ -40,6 +56,29 @@ class SelectTableService{
         }
       }
     }
+
     newClassNameController.clear();
   }
+
+  Future<void> addClassToDB() async {
+    var selectConditionString = <String, List<int>>{
+      '0' : [],'1' : [], '2':[], '3' : [], '4' : [], '5' : [], '6':[]
+    };
+    for(int day = 0; day < 7; day ++){
+      selectConditionString['$day'] = selectCondition[day]??[];
+    }
+    int id = await getMaxCursorId() ?? 0;
+    ClassInformationDBModel dbInstance = ClassInformationDBModel(
+        cursorId: id,
+        className: newClassNameController.text,
+        classTime: convertMapToString(selectConditionString),
+        classColorType: dialogDropDownButtonModel.getTransparency()
+    );
+    insertInformation(
+        dbInstance,
+        'class_information',
+    );
+  }
 }
+
+

@@ -126,8 +126,10 @@ class _DialogContent extends StatelessWidget {
                             color: Color.fromRGBO(98, 108, 126, 1),
                             size: 70.0,
                           ),
-                          onPressed: () =>
-                              Navigator.of(context, rootNavigator: true).pop(),
+                          onPressed: () {
+                            classTableManageModel.changeSelectMode();
+                            Navigator.of(context, rootNavigator: true).pop();
+                          }
                         ),
                       ),
                       Image(

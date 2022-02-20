@@ -4,7 +4,9 @@ import 'package:picture_note/configs/firebase_options.dart';
 import 'package:picture_note/screens/main_screen.dart';
 import 'package:picture_note/locator.dart';
 import 'package:picture_note/services/firebase_authentication_servise.dart';
+import 'package:picture_note/services/select_class_table_services.dart';
 import 'package:provider/provider.dart';
+import 'package:picture_note/db/db_operater.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +14,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   setupLocator();
+  await openLocalDB();
+  SelectTableService selectTableService = locator<SelectTableService>();
+  await selectTableService.init();
   runApp(const MyApp());
 }
 

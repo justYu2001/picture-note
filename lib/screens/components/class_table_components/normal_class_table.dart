@@ -15,9 +15,7 @@ class _ClassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NormalCardModel normalCardModel = locator<NormalCardModel>();
     SelectTableService selectTableService = locator<SelectTableService>();
-    selectTableService.normalCardModelInstances[day]?.add(normalCardModel);
     return ChangeNotifierProvider<NormalCardModel>.value(
         value: selectTableService.normalCardModelInstances[day]?[clock-7],
         child: Consumer<NormalCardModel>(

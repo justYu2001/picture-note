@@ -7,10 +7,11 @@ class ClassTableManageModel extends BaseModel{
   bool selectMode = false;
   var selectTableService = locator<SelectTableService>();
 
-  void changeSelectMode(){
+  void changeSelectMode() async{
     setState(ViewState.Busy);
     selectMode = !selectMode;
     if(selectMode == false){
+      await selectTableService.addClassToDB();
       selectTableService.setNormalCardInformation();
       selectTableService.clearSelectCondition();
     }

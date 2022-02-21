@@ -51,6 +51,11 @@ Future<int?> getMaxCursorId () async{
 String convertMapToString(var selectTime){
   return jsonEncode(selectTime);
 }
+
+Map convertStringToMap(String jsonString){
+  return jsonDecode(jsonString);
+}
+
 Future<List<ClassInformationDBModel>> getClassInformation() async {
   final List<Map<String, dynamic>> maps = await localDB.query('class_information');
 

@@ -6,7 +6,6 @@ import 'package:picture_note/db/class_infromation_db_model.dart';
 import 'package:picture_note/db/db_operater.dart';
 
 import 'package:picture_note/viewmodels/card_model.dart';
-/// todo 將資料庫資料呈現到畫面上
 
 class SelectTableService{
   TextEditingController newClassNameController = TextEditingController();
@@ -26,9 +25,23 @@ class SelectTableService{
         normalCardModelInstances[day]?.add(normalCardModel);
       }
     }
-    List<ClassInformationDBModel> classInformation = await getClassInformation();
+    await readDBrenderLayout();
   }
 
+  Future<void> readDBrenderLayout()async {
+    List<ClassInformationDBModel> classInformation = await getClassInformation();
+    for(var everyClassInformation in classInformation){
+      String name = everyClassInformation.className;
+      double colorType = everyClassInformation.classColorType.toDouble();
+      Map time = convertStringToMap(everyClassInformation.classTime);
+      for(int day = 0; day < 7; day ++){
+        for (int clock in time['$day']){
+          normalCardModelInstances[day]?[clock - 7].className = name;
+          normalCardModelInstances[day]?[clock - 7].classColor = Color.fromRGBO(117,176,192,colorType);
+        }
+      }
+    }
+  }
 
   void setSelectCondition(int day, int clock){
     selectCondition[day]?.add(clock);

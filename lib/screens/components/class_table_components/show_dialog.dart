@@ -3,7 +3,6 @@ import 'package:picture_note/locator.dart';
 import 'package:picture_note/services/select_class_table_services.dart';
 import 'package:picture_note/viewmodels/dialog_drop_down_button_model.dart';
 import 'package:picture_note/viewmodels/class_manage_model.dart';
-import 'package:picture_note/viewmodels/class_manage_model.dart';
 import 'package:provider/provider.dart';
 
 class AddButton extends StatelessWidget {

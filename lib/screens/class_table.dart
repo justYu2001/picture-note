@@ -36,13 +36,8 @@ class ClassTable extends StatelessWidget {
                           Container(
                             color: classTableManageModel.selectMode == true ?
                             Color.fromRGBO(144, 159, 190, 0.5) : Colors.transparent,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: const [
-                                SelectButton(),
-                                AddButton(),
-                              ],
-                            ),
+                            alignment: Alignment.centerRight,
+                            child: classTableManageModel.selectMode == true ? AddButton() : SelectButton(),
                           )),
                 ),
                 Row(
